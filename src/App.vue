@@ -1,5 +1,7 @@
 <template>
-  <Reservation />
+  <div class="container">
+    <Reservation />
+  </div>
 </template>
 
 <script>
@@ -21,5 +23,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
 }
 </style>
