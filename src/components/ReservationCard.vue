@@ -13,23 +13,17 @@
         </div>
       </div>
 
-      <div class="card-body" style="margin-top: 1em;">
-        <div class="inputs">
-          <input type="text" value="12 Jan 2021" />
-          <i class="fas fa-arrow-right"></i>
-          <input type="text" value="20 Jan 2021" />
-        </div>
+      <div class="card-body">
+        <DatePicker />
       </div>
     </form>
   </div>
-
-  <Calendar />
 </template>
 
 <script>
 import ReservationRating from './ReservationRating'
 import Button from './UI/Button'
-import Calendar from './UI/Calendar/Calendar'
+import DatePicker from './UI/Calendar/DatePicker'
 
 export default {
   name: 'ReservationCard',
@@ -41,7 +35,7 @@ export default {
   components: {
     ReservationRating,
     Button,
-    Calendar
+    DatePicker
   },
 
   methods: {
@@ -60,23 +54,12 @@ export default {
   position: relative;
 }
 
-.inputs{
-  border: #3c8f3f solid 1px;
-  border-radius: 2em;
-  padding: .4em 0;
+.card-body{
+  margin-top: 1em;
 }
 
 .price {
   margin: 0;
   margin-bottom: .3em;
-}
-
-input{
-  padding: .5em;
-  border-radius: 1em;
-  width: 42%;
-  margin: .25em;
-  border: none;
-  text-align: center;
 }
 </style>

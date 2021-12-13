@@ -14,8 +14,12 @@
 
     <div class="days">
       <template v-for="(day, index) in days" :key="index">
-          <div v-if="date_selected && getDate(date_selected).toString() == getDate(day).toString()" class="selected" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
+          <div v-if="dateSelected.start && getDate(dateSelected.start).getTime() === getDate(day).getTime()" class="selected start" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
+          <div v-else-if="dateSelected.end && getDate(dateSelected.end).getTime() === getDate(day).getTime()" class="selected end" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
+        <template v-else>
+          <div v-if="dateSelected.start && dateSelected.end && getDate(day) < getDate(dateSelected.end) && getDate(day) > getDate(dateSelected.start)" class="selected between" :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
           <div v-else :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
+        </template>
       </template>
     </div>
   </div>
@@ -28,6 +32,12 @@ import days from './days';
 export default {
   name: 'Calendar',
 
+  props: {
+    dateSelected: {required: true, type: Object},
+    selectDay: {required: true, type: Function},
+    unSelectDay: {required: true, type: Function}
+  },
+
   data() {
     var date = new Date();
     date.setDate(1);
@@ -35,8 +45,7 @@ export default {
       date: date,
       year: date.getFullYear(),
       month: date.getMonth(),
-      days: [],
-      date_selected: null
+      days: []
     }
   },
 
@@ -84,8 +93,12 @@ export default {
         this.days.push({type: 'prev', day: prevLastDay - i + 1, year: curYear, month: curMonth});
       }
 
+      const now = new Date();
+
       for (let i = 1; i <= lastDay; ++i){
-        this.days.push({type: 'current', day: i, year: year, month});
+        if (now.getFullYear() == year && now.getMonth() == month && now.getDate() == i)
+          this.days.push({type: 'current now', day: i, year: year, month});
+        else this.days.push({type: 'current', day: i, year: year, month});
       }
 
       for (let i = 1; i <= nextDays; ++i){
@@ -97,18 +110,6 @@ export default {
         }
         this.days.push({type: 'next', day: i, year: curYear, month: curMonth});
       }
-    },
-
-    selectDay(day){
-      console.log(day);
-
-      this.date_selected = day;
-    },
-
-    unSelectDay(day){
-      console.log(day);
-
-      this.date_selected = null;
     },
 
     getDate(day){
@@ -132,9 +133,10 @@ export default {
 <style lang="scss" scoped>
 .calendar {
   position: absolute !important;
-
+  z-index: 100;
   height: auto !important;
   user-select: none;
+  width: 92%;
 }
 
 .card-header{
@@ -149,9 +151,10 @@ export default {
   border-radius: 100%;
   border: solid transparent 1px;
   padding: 10px;
+  transition: .5s;
 
   &:hover{
-    border: solid #3c8f3f 1px;
+    transform: scale(1.15);
   }
 }
 
@@ -177,6 +180,10 @@ export default {
   outline: 2px solid #3c8f3f;
 }
 
+.current.now{
+  outline: 3px solid #3c8f3faa;
+}
+
 .selected{
   background: #3c8f3f;
   color: #fff !important;
@@ -185,5 +192,18 @@ export default {
 
 .prev, .next{
   color: #b6aeae;
+}
+
+.between{
+  background: #3c8f3f44;
+  border-radius: 0 !important;
+}
+
+.between + .end{
+  border-radius: 0 100% 100% 0 !important;
+}
+
+.start {
+  border-radius: 100% 0 0 100% !important;
 }
 </style>
