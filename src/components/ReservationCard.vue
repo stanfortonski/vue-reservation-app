@@ -22,11 +22,14 @@
       </div>
     </form>
   </div>
+
+  <Calendar />
 </template>
 
 <script>
 import ReservationRating from './ReservationRating'
 import Button from './UI/Button'
+import Calendar from './UI/Calendar/Calendar'
 
 export default {
   name: 'ReservationCard',
@@ -37,7 +40,8 @@ export default {
 
   components: {
     ReservationRating,
-    Button
+    Button,
+    Calendar
   },
 
   methods: {
@@ -51,17 +55,9 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-  background: #fff;
-  box-shadow: 2px 16px 64px -22px rgba(0, 0, 0, 0.5);
-  border-radius: 1.5em;
-  padding: 1.5em;
-  width: 364px;
-
-  .card-header{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2em;
-  }
+  width: 400px;
+  height: 180px;
+  position: relative;
 }
 
 .inputs{
@@ -82,9 +78,5 @@ input{
   margin: .25em;
   border: none;
   text-align: center;
-
-  &:focus{
-    outline: none;
-  }
 }
 </style>
