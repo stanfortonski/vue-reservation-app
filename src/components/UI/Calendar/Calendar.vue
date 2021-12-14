@@ -14,11 +14,11 @@
 
     <div class="days">
       <template v-for="(day, index) in days" :key="index">
-          <div v-if="dateSelected.start && getDate(dateSelected.start).getTime() === getDate(day).getTime()" class="selected start" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
-          <div v-else-if="dateSelected.end && getDate(dateSelected.end).getTime() === getDate(day).getTime()" class="selected end" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
+        <div v-if="dateSelected.start && getDate(dateSelected.start).getTime() === getDate(day).getTime()" class="selected start" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
+        <div v-else-if="dateSelected.end && getDate(dateSelected.end).getTime() === getDate(day).getTime()" class="selected end" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
         <template v-else>
           <div v-if="dateSelected.start && dateSelected.end && getDate(day) < getDate(dateSelected.end) && getDate(day) > getDate(dateSelected.start)" class="selected between" :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
-          <div v-else-if="getDate(day).getTime() < new Date(allowedDate.end) && getDate(day) > new Date(allowedDate.start)" :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
+          <div v-else-if="getDate(day) < new Date(allowedDate.end) && getDate(day) > new Date(allowedDate.start)" :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
           <div v-else :class="day.type" class="locked">{{day.day}}</div>
         </template>
       </template>
