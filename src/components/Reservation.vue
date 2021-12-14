@@ -13,7 +13,11 @@ export default {
       reservation: {
         votes: 123,
         rating: 3.5,
-        price: 298
+        price: 298,
+        allowedDate: {
+          start: '2021-06-10',
+          end: '2022-01-01'
+        }
       }
     }
   },

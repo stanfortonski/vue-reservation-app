@@ -4,17 +4,21 @@
       <div class="card-header">
         <div>
           <h2 class="price">{{reservation.price}} zł</h2>
+          <input type="hidden" name="price" :value="reservation.price" />
           <div>
             <ReservationRating :rating="reservation.rating" :votes="reservation.votes" />
           </div>
         </div>
         <div>
-          <Button type="submit">Reserve</Button>
+          <Button type="submit" :disabled="reserved">
+            <template v-if="!reserved">Reserve</template>
+            <template v-else>Reserved!</template>
+          </Button>
         </div>
       </div>
 
       <div class="card-body">
-        <DatePicker />
+        <DatePicker :allowedDate="reservation.allowedDate" />
       </div>
     </form>
   </div>
@@ -28,6 +32,12 @@ import DatePicker from './UI/Calendar/DatePicker'
 export default {
   name: 'ReservationCard',
 
+  data(){
+    return {
+      reserved: false
+    }
+  },
+
   props: {
     reservation: { required: true, type: Object }
   },
@@ -39,9 +49,17 @@ export default {
   },
 
   methods: {
-    reseve (e) {
+    reseve(e) {
       e.preventDefault();
-      console.log('Reserve');
+      const elements = e.target.elements;
+      const values = {
+        name: elements.price.value,
+        start: elements.start.value,
+        end: elements.end.value
+      }
+
+      console.log(values);
+      this.reserved = true;
     }
   }
 }

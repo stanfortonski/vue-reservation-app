@@ -18,7 +18,8 @@
           <div v-else-if="dateSelected.end && getDate(dateSelected.end).getTime() === getDate(day).getTime()" class="selected end" :class="day.type" @click="() => unSelectDay(day)">{{day.day}}</div>
         <template v-else>
           <div v-if="dateSelected.start && dateSelected.end && getDate(day) < getDate(dateSelected.end) && getDate(day) > getDate(dateSelected.start)" class="selected between" :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
-          <div v-else :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
+          <div v-else-if="getDate(day).getTime() < new Date(allowedDate.end) && getDate(day) > new Date(allowedDate.start)" :class="day.type" @click="() => selectDay(day)">{{day.day}}</div>
+          <div v-else :class="day.type" class="locked">{{day.day}}</div>
         </template>
       </template>
     </div>
@@ -35,7 +36,8 @@ export default {
   props: {
     dateSelected: {required: true, type: Object},
     selectDay: {required: true, type: Function},
-    unSelectDay: {required: true, type: Function}
+    unSelectDay: {required: true, type: Function},
+    allowedDate: {required: true, type: Object}
   },
 
   data() {
@@ -96,6 +98,8 @@ export default {
       const now = new Date();
 
       for (let i = 1; i <= lastDay; ++i){
+
+
         if (now.getFullYear() == year && now.getMonth() == month && now.getDate() == i)
           this.days.push({type: 'current now', day: i, year: year, month});
         else this.days.push({type: 'current', day: i, year: year, month});
@@ -190,7 +194,7 @@ export default {
   font-weight: bold;
 }
 
-.prev, .next{
+.prev, .next, .locked{
   color: #b6aeae;
 }
 

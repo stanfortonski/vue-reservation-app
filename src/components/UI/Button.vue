@@ -28,5 +28,9 @@ export default {
   &:hover {
     background: #3c8f3f;
   }
+
+  &[disabled]{
+    opacity: .5;
+  }
 }
 </style>
